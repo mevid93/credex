@@ -1,5 +1,5 @@
-# keyrage
-Key Storage
+# credex
+Simple password manager.
 ---
 
 * File menu where user can close the application.
