@@ -2,7 +2,6 @@
 Simple password manager
 ---
 
-* File menu where user can close the application.
 * File option where user can create a new database.
 * File option where user can select existing database.
 * File option where user can close current selected database.
