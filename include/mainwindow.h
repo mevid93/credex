@@ -24,6 +24,9 @@ public:
     /// @param logMsg Log message.
     void writeLog(const std::string& logMsg);
 
+    /// @brief Update UI components based on internal state changes.
+    void updateUI();
+
 private:
     Ui::MainWindow *ui;
 
@@ -40,6 +43,9 @@ private slots:
 
     /// @brief New database file.
     void newDatabase();
+
+    /// @brief Close database file.
+    void closeDatabase();
 
 };
 #endif // MAINWINDOW_H

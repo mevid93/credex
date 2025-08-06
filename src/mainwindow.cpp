@@ -18,6 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     // Set some custom signals and slots
     connect(this->ui->action_Exit, &QAction::triggered, this, &MainWindow::closeApplication);
     connect(this->ui->action_New, &QAction::triggered, this, &MainWindow::newDatabase);
+    connect(this->ui->action_Close, &QAction::triggered, this, &MainWindow::closeDatabase);
+
+    this->updateUI();
 }
 
 MainWindow::~MainWindow()
@@ -49,9 +52,38 @@ void MainWindow::newDatabase()
     this->unsavedChanges = true;
     this->newDatabaseFile = true;
     this->databaseFileOpen = true;
+
+    this->writeLog("Opened a new database file.");
+
+    this->ui->pathLineEdit->setText("*new database file*");
+
+    this->updateUI();
 }
 
-void MainWindow::writeLog(const std::string& logMsg) {
+void MainWindow::closeDatabase()
+{
+    if (this->unsavedChanges) {
+        QMessageBox::StandardButton reply;
+        reply = QMessageBox::question(this, "Confirm", "There are unsaved changes. Close without saving?", QMessageBox::Yes | QMessageBox::No);
+
+        if (reply == QMessageBox::No) {
+            return;
+        }
+    }
+
+    this->unsavedChanges = false;
+    this->newDatabaseFile = false;
+    this->databaseFileOpen = false;
+
+    this->ui->pathLineEdit->setText("");
+
+    this->writeLog("Closed a database file.");
+
+    this->updateUI();
+}
+
+void MainWindow::writeLog(const std::string& logMsg)
+{
     if (logMsg == "") return;
 
     auto msg = QString::fromStdString(logMsg);
@@ -59,4 +91,11 @@ void MainWindow::writeLog(const std::string& logMsg) {
     QTime time = QTime::currentTime();
 
     this->ui->logTextEdit->append(time.toString("hh:mm:ss") + ": " + msg);
+}
+
+void MainWindow::updateUI()
+{
+    this->ui->action_Close->setDisabled(!this->databaseFileOpen);
+    this->ui->action_Save->setDisabled(!this->databaseFileOpen);
+    this->ui->actionSave_As->setDisabled(!this->databaseFileOpen);
 }
