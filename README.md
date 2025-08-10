@@ -2,7 +2,8 @@
 Simple password manager
 ---
 
-* File option where user can select existing database.
+* File option where user can save changes to database file (save).
+* File option where user can save changes to new database file (save as).
 * User needs to provide master password before the database can be saved.
 * List keys that are stored in open db. Passwords should be hidden, but everything else is not a secret.
 * Add new key (Service name, username, password, email, url, additional information).

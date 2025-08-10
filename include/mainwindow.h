@@ -37,12 +37,17 @@ private:
     bool unsavedChanges;
     bool databaseFileOpen;
 
+    bool handleUnsavedChanges();
+
 private slots:
     /// @brief Close the application.
     void closeApplication();
 
     /// @brief New database file.
     void newDatabase();
+
+    /// @brief Open existing database file.
+    void openExistingDatabase();
 
     /// @brief Close database file.
     void closeDatabase();
