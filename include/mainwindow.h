@@ -46,8 +46,14 @@ private slots:
     /// @brief New database file.
     void newDatabase();
 
-    /// @brief Open existing database file.
+    /// @brief Open an existing database file.
     void openExistingDatabase();
+
+    /// @brief Save changes made for database file.
+    void saveDatabaseChanges();
+
+    /// @brief Save a new database file.
+    void saveNewDatabaseFile();
 
     /// @brief Close database file.
     void closeDatabase();

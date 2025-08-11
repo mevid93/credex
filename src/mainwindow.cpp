@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->ui->action_Exit, &QAction::triggered, this, &MainWindow::closeApplication);
     connect(this->ui->action_New, &QAction::triggered, this, &MainWindow::newDatabase);
     connect(this->ui->action_Open, &QAction::triggered, this, &MainWindow::openExistingDatabase);
+    connect(this->ui->action_Save, &QAction::triggered, this, &MainWindow::saveDatabaseChanges);
+    connect(this->ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveNewDatabaseFile);
     connect(this->ui->action_Close, &QAction::triggered, this, &MainWindow::closeDatabase);
 
     this->updateUI();
@@ -62,7 +64,6 @@ void MainWindow::openExistingDatabase()
         return;
     }
 
-    // Select existing database file dialog.
     QFileDialog dialog;
     dialog.setOption(QFileDialog::DontUseNativeDialog, true);
     dialog.setNameFilter("CRDX Files (*.crdx)");
@@ -72,7 +73,7 @@ void MainWindow::openExistingDatabase()
     if (dialog.exec()) {
         QStringList files = dialog.selectedFiles();
         if (!files.isEmpty()) {
-            fileName = files.at(0);  // ✅ Safe
+            fileName = files.at(0);
         }
     } else {
         return;
@@ -85,6 +86,49 @@ void MainWindow::openExistingDatabase()
     this->ui->pathLineEdit->setText(fileName);
 
     this->writeLog("Opened an existing database file: " + fileName.toStdString() + ".");
+
+    this->updateUI();
+}
+
+void MainWindow::saveDatabaseChanges()
+{
+    if (this->newDatabaseFile) {
+        saveNewDatabaseFile();
+        return;
+    }
+
+    this->writeLog("All changes were saved to file: " + this->ui->pathLineEdit->text().toStdString());
+
+    this->unsavedChanges = false;
+
+    this->updateUI();
+}
+
+void MainWindow::saveNewDatabaseFile()
+{
+    QFileDialog dialog(this, "Save As");
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
+    dialog.setFileMode(QFileDialog::AnyFile);
+    dialog.setNameFilter("CRDX Files (*.crdx)");
+    dialog.setDefaultSuffix("crdx");
+    dialog.setOption(QFileDialog::DontUseNativeDialog, true);
+
+    QString fileName = "";
+    if (dialog.exec() == QDialog::Accepted) {
+        QStringList files = dialog.selectedFiles();
+        if (!files.isEmpty()) {
+            fileName = files.at(0);
+        }
+    } else {
+        return;
+    }
+
+
+    this->writeLog("All changes were saved to file: " + fileName.toStdString());
+
+    this->ui->pathLineEdit->setText(fileName);
+    this->unsavedChanges = false;
+    this->newDatabaseFile = false;
 
     this->updateUI();
 }

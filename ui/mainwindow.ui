@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>CREDEX 0.1.2</string>
+   <string>CREDEX 0.1.3</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="3,1">
