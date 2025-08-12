@@ -1,57 +1,57 @@
 #include "record.h"
 
-Record::Record(uint32_t id): id(id) {}
+Record::Record(uint32_t id): m_id(id) {}
 
 Record::~Record() {}
 
 uint32_t Record::getId() const {
-    return this->id;
+    return this->m_id;
 }
 
 const std::string& Record::getDescription() const {
-    return this->description;
+    return this->m_description;
 }
 
 const std::string& Record::getEmail() const {
-    return this->email;
+    return this->m_email;
 }
 
-const std::string& Record::getName() const {
-    return this->name;
+const std::string& Record::getTitle() const {
+    return this->m_title;
 }
 
 const std::string& Record::getPassword() const {
-    return this->password;
+    return this->m_password;
 }
 
 const std::string& Record::getUrl() const {
-    return this->url;
+    return this->m_url;
 }
 
 const std::string& Record::getUsername() const {
-    return this->username;
+    return this->m_username;
 }
 
 void Record::setDescription(std::string& description) {
-    this->description = description;
+    this->m_description = description;
 }
 
 void Record::setEmail(std::string& email) {
-    this->email = email;
+    this->m_email = email;
 }
 
-void Record::setName(std::string& name) {
-    this->name = name;
+void Record::setTitle(std::string& title) {
+    this->m_title = title;
 }
 
 void Record::setPassword(std::string& password) {
-    this->password = password;
+    this->m_password = password;
 }
 
 void Record::setUrl(std::string& url) {
-    this->url = url;
+    this->m_url = url;
 }
 
 void Record::setUsername(std::string& username) {
-    this->username = username;
+    this->m_username = username;
 }

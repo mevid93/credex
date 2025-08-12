@@ -19,7 +19,7 @@ public:
 
     /// @brief Get Record name.
     /// @return Record name.
-    const std::string& getName() const;
+    const std::string& getTitle() const;
 
     /// @brief Get Record username.
     /// @return Record username.
@@ -43,7 +43,7 @@ public:
 
     /// @brief Set name.
     /// @param name Record name.
-    void setName(std::string& name);
+    void setTitle(std::string& name);
 
     /// @brief Set username.
     /// @param username Record username.
@@ -66,13 +66,13 @@ public:
     void setDescription(std::string& description);
 
 private:
-    uint32_t id;
-    std::string name;
-    std::string username;
-    std::string password;
-    std::string email;
-    std::string url;
-    std::string description;
+    uint32_t m_id;
+    std::string m_title;
+    std::string m_username;
+    std::string m_password;
+    std::string m_email;
+    std::string m_url;
+    std::string m_description;
 };
 
 #endif // RECORD_H

@@ -58,5 +58,8 @@ private slots:
     /// @brief Close database file.
     void closeDatabase();
 
+    /// @brief Set database password.
+    void setDatabasePassword();
+
 };
 #endif // MAINWINDOW_H

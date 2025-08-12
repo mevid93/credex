@@ -10,8 +10,11 @@ class Database
 {
 public:
     /// @brief Database constructor.
+    Database();
+
+    /// @brief Database constructor.
     /// @param filePath Database file path.
-    explicit Database(std::string& filePath);
+    Database(std::string& filePath);
 
     /// @brief Database constructor.
     /// @param filePath Database file path.
@@ -21,10 +24,27 @@ public:
     /// @brief Database destructor.
     ~Database();
 
+    /// @brief Insert new record to database.
+    /// @param record New record to be inserted.
+    void addNewRecord(Record& record);
+
+    /// @brief Deleted record by id.
+    /// @param id Record id.
+    void deleteRecord(uint32_t id);
+
+    /// @brief Update record in database.
+    /// @param record Updated record.
+    void updateRecord(Record& record);
+
+    /// @brief Set database password.
+    /// @param password Database password.
+    void setPassword(std::string& password);
+
     const std::string& getFilePath() const;
 private:
-    std::string filePath;
-    std::vector<std::shared_ptr<Record>> records;
+    std::string m_password;
+    std::string m_filePath;
+    std::vector<std::shared_ptr<Record>> m_records;
 };
 
 #endif // DATABASE_H

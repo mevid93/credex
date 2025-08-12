@@ -111,7 +111,15 @@ color: rgb(0, 0, 0);</string>
     <addaction name="action_Close"/>
     <addaction name="action_Exit"/>
    </widget>
+   <widget class="QMenu" name="menuRecord">
+    <property name="title">
+     <string>Database</string>
+    </property>
+    <addaction name="actionCreate_New"/>
+    <addaction name="actionSet_DB_Password"/>
+   </widget>
    <addaction name="menu_File"/>
+   <addaction name="menuRecord"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="action_New">
@@ -160,6 +168,22 @@ color: rgb(0, 0, 0);</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionCreate_New">
+   <property name="text">
+    <string>Add Record</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionSet_DB_Password">
+   <property name="text">
+    <string>Set DB Password</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

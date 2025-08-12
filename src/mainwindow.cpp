@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "password_dialog.h"
 #include "QFileDialog"
 #include <QTime>
 #include <QMessageBox>
@@ -22,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->ui->action_Save, &QAction::triggered, this, &MainWindow::saveDatabaseChanges);
     connect(this->ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveNewDatabaseFile);
     connect(this->ui->action_Close, &QAction::triggered, this, &MainWindow::closeDatabase);
+
+    connect(this->ui->actionSet_DB_Password, &QAction::triggered, this, &MainWindow::setDatabasePassword);
 
     this->updateUI();
 }
@@ -50,6 +53,8 @@ void MainWindow::newDatabase()
     this->unsavedChanges = true;
     this->newDatabaseFile = true;
     this->databaseFileOpen = true;
+
+    this->database = std::make_unique<Database>();
 
     this->writeLog("Opened a new database file.");
 
@@ -142,6 +147,8 @@ void MainWindow::closeDatabase()
     this->newDatabaseFile = false;
     this->databaseFileOpen = false;
 
+    this->database.reset();
+
     this->ui->pathLineEdit->setText("");
 
     this->writeLog("Closed a database file.");
@@ -165,6 +172,9 @@ void MainWindow::updateUI()
     this->ui->action_Close->setDisabled(!this->databaseFileOpen);
     this->ui->action_Save->setDisabled(!this->databaseFileOpen);
     this->ui->actionSave_As->setDisabled(!this->databaseFileOpen);
+
+    this->ui->menuRecord->setDisabled(!this->databaseFileOpen);
+    this->ui->actionCreate_New->setDisabled(!this->databaseFileOpen);
 }
 
 bool MainWindow::handleUnsavedChanges() {
@@ -184,4 +194,20 @@ bool MainWindow::handleUnsavedChanges() {
     }
 
     return true;
+}
+
+void MainWindow::setDatabasePassword() {
+    if (!this->databaseFileOpen) {
+        return;
+    }
+
+    PasswordDialog pwDialog(this);
+
+    if (pwDialog.exec() == QDialog::Accepted) {
+        std::string password = pwDialog.getPassword();
+        this->database->setPassword(password);
+        this->writeLog("Database password changed!");
+    } else {
+        return;
+    }
 }
