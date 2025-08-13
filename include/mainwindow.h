@@ -61,5 +61,7 @@ private slots:
     /// @brief Set database password.
     void setDatabasePassword();
 
+    /// @brief Create new Record.
+    void createNewRecord();
 };
 #endif // MAINWINDOW_H

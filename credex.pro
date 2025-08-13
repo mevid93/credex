@@ -11,7 +11,8 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/password_dialog.cpp \
-    src/record.cpp
+    src/record.cpp \
+    src/record_dialog.cpp
 
 HEADERS += \
     include/database.h \
@@ -19,11 +20,13 @@ HEADERS += \
     include/db_writer.h \
     include/mainwindow.h \
     include/password_dialog.h \
-    include/record.h
+    include/record.h \
+    include/record_dialog.h
 
 FORMS += \
     ui/mainwindow.ui \
-    ui/password_dialog.ui
+    ui/password_dialog.ui \
+    ui/record_dialog.ui
 
 # Include path for header files
 INCLUDEPATH = include/

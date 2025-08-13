@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "password_dialog.h"
+#include "record_dialog.h"
 #include "QFileDialog"
 #include <QTime>
 #include <QMessageBox>
@@ -24,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this->ui->actionSave_As, &QAction::triggered, this, &MainWindow::saveNewDatabaseFile);
     connect(this->ui->action_Close, &QAction::triggered, this, &MainWindow::closeDatabase);
 
+    connect(this->ui->actionCreate_New, &QAction::triggered, this, &MainWindow::createNewRecord);
     connect(this->ui->actionSet_DB_Password, &QAction::triggered, this, &MainWindow::setDatabasePassword);
 
     this->updateUI();
@@ -207,7 +209,18 @@ void MainWindow::setDatabasePassword() {
         std::string password = pwDialog.getPassword();
         this->database->setPassword(password);
         this->writeLog("Database password changed!");
-    } else {
+    }
+}
+
+void MainWindow::createNewRecord() {
+    if (!this->databaseFileOpen) {
         return;
+    }
+
+    RecordDialog recordDialog(this, "Create Record");
+
+    if (recordDialog.exec() == QDialog::Accepted) {
+
+        this->writeLog("New record was created!");
     }
 }
