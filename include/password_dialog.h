@@ -28,6 +28,10 @@ private:
 
 private slots:
     void okButtonPressed();
+    void showButton1Pressed();
+    void showButton1Released();
+    void showButton2Pressed();
+    void showButton2Released();
 };
 
 #endif // PASSWORD_DIALOG_H
