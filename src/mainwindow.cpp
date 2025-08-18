@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ui->frame->setStyleSheet("QFrame#frame { border: 1px solid white; }");
+
     // Set table columns to fill whole table.
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 
@@ -60,6 +62,8 @@ void MainWindow::newDatabase()
     this->databaseFileOpen = true;
 
     this->database = std::make_unique<Database>();
+
+    this->populateTableWithRecords();
 
     this->writeLog("Opened a new database file.");
 
@@ -154,6 +158,9 @@ void MainWindow::closeDatabase()
 
     this->database.reset();
 
+    this->ui->tableWidget->clearContents();
+    this->ui->tableWidget->setRowCount(0);
+
     this->ui->pathLineEdit->setText("");
 
     this->writeLog("Closed a database file.");
@@ -226,6 +233,49 @@ void MainWindow::createNewRecord() {
     if (recordDialog.exec() == QDialog::Accepted) {
         std::shared_ptr<Record> record = recordDialog.getRecord();
         this->database->addNewRecord(record);
+        this->populateTableWithRecords();
         this->writeLog("New record was created!");
+    }
+}
+
+void MainWindow::populateTableWithRecords() {
+    if (!this->databaseFileOpen)
+        return;
+
+    std::vector<std::shared_ptr<Record>> records = database->getRecords();
+
+    ui->tableWidget->clearContents();
+    ui->tableWidget->setRowCount(0);
+
+    for (uint row = 0; row < records.size(); ++row) {
+        auto record = records[row];
+
+        int rowCount = ui->tableWidget->rowCount(); // get current row count
+        ui->tableWidget->insertRow(rowCount);       // add a new row at the end
+
+        QTableWidgetItem* titleItem = new QTableWidgetItem(QString::fromStdString(record->getTitle()));
+        titleItem->setFlags(titleItem->flags() & ~Qt::ItemIsEditable);  // Remove editable flag
+        this->ui->tableWidget->setItem(row, 0, titleItem);
+
+        QTableWidgetItem* usernameItem = new QTableWidgetItem(QString::fromStdString(record->getUsername()));
+        usernameItem->setFlags(usernameItem->flags() & ~Qt::ItemIsEditable);
+        this->ui->tableWidget->setItem(row, 1, usernameItem);
+
+        QTableWidgetItem* passwordItem = new QTableWidgetItem("*****");  // Masked display
+        passwordItem->setData(Qt::UserRole, QString::fromStdString(record->getPassword()));  // Store actual password
+        passwordItem->setFlags(passwordItem->flags() & ~Qt::ItemIsEditable);
+        this->ui->tableWidget->setItem(row, 2, passwordItem);
+
+        QTableWidgetItem* emailItem = new QTableWidgetItem(QString::fromStdString(record->getEmail()));
+        emailItem->setFlags(emailItem->flags() & ~Qt::ItemIsEditable);
+        this->ui->tableWidget->setItem(row, 3, emailItem);
+
+        QTableWidgetItem* urlItem = new QTableWidgetItem(QString::fromStdString(record->getUrl()));
+        urlItem->setFlags(urlItem->flags() & ~Qt::ItemIsEditable);
+        this->ui->tableWidget->setItem(row, 4, urlItem);
+
+        QTableWidgetItem* descriptionItem = new QTableWidgetItem(QString::fromStdString(record->getDescription()));
+        descriptionItem->setFlags(descriptionItem->flags() & ~Qt::ItemIsEditable);
+        this->ui->tableWidget->setItem(row, 5, descriptionItem);
     }
 }

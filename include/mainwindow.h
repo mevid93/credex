@@ -39,6 +39,8 @@ private:
 
     bool handleUnsavedChanges();
 
+    void populateTableWithRecords();
+
 private slots:
     /// @brief Close the application.
     void closeApplication();
