@@ -40,13 +40,21 @@ public:
     /// @param password Database password.
     void setPassword(std::string& password);
 
-    /// @brief Get database file path.
-    /// @returns File path.
-    const std::string& getFilePath() const;
-
     /// @brief Get Records.
     /// @returns Vector of shared ptr records.
     const std::vector<std::shared_ptr<Record>>& getRecords() const;
+
+    /// @brief Set file path.
+    /// @param newFilePath New file path.
+    void setFilePath(const std::string &newFilePath);
+
+    /// @brief Get database password.
+    /// @returns Database password.
+    std::string getPassword() const;
+
+    /// @brief Get database file path.
+    /// @returns File path.
+    std::string getFilePath() const;
 
 private:
     std::string m_password;

@@ -8,6 +8,7 @@ CONFIG += c++17
 
 SOURCES += \
     src/database.cpp \
+    src/db_writer.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/password_dialog.cpp \
@@ -27,6 +28,8 @@ FORMS += \
     ui/mainwindow.ui \
     ui/password_dialog.ui \
     ui/record_dialog.ui
+
+LIBS += -lssl -lcrypto
 
 # Include path for header files
 INCLUDEPATH = include/

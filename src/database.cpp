@@ -17,3 +17,18 @@ void Database::addNewRecord(std::shared_ptr<Record> record) {
 const std::vector<std::shared_ptr<Record>>& Database::getRecords() const  {
     return this->m_records;
 }
+
+void Database::setFilePath(const std::string &newFilePath)
+{
+    this->m_filePath = newFilePath;
+}
+
+std::string Database::getPassword() const
+{
+    return m_password;
+}
+
+std::string Database::getFilePath() const
+{
+    return m_filePath;
+}

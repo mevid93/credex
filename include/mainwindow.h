@@ -30,7 +30,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    std::unique_ptr<Database> database;
+    std::unique_ptr<Database> m_database;
 
     // State flags.
     bool newDatabaseFile;

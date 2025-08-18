@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "password_dialog.h"
 #include "record_dialog.h"
+#include "db_writer.h"
 #include "QFileDialog"
 #include <QTime>
 #include <QMessageBox>
@@ -61,7 +62,7 @@ void MainWindow::newDatabase()
     this->newDatabaseFile = true;
     this->databaseFileOpen = true;
 
-    this->database = std::make_unique<Database>();
+    this->m_database = std::make_unique<Database>();
 
     this->populateTableWithRecords();
 
@@ -111,6 +112,13 @@ void MainWindow::saveDatabaseChanges()
         return;
     }
 
+    try {
+        write_database(this->m_database);
+    } catch (...) {
+        this->writeLog("Write operation failed!");
+        return;
+    }
+
     this->writeLog("All changes were saved to file: " + this->ui->pathLineEdit->text().toStdString());
 
     this->unsavedChanges = false;
@@ -132,11 +140,18 @@ void MainWindow::saveNewDatabaseFile()
         QStringList files = dialog.selectedFiles();
         if (!files.isEmpty()) {
             fileName = files.at(0);
+            this->m_database->setFilePath(fileName.toStdString());
         }
     } else {
         return;
     }
 
+    try {
+        write_database(this->m_database);
+    } catch (...) {
+        this->writeLog("Write operation failed!");
+        return;
+    }
 
     this->writeLog("All changes were saved to file: " + fileName.toStdString());
 
@@ -156,7 +171,7 @@ void MainWindow::closeDatabase()
     this->newDatabaseFile = false;
     this->databaseFileOpen = false;
 
-    this->database.reset();
+    this->m_database.reset();
 
     this->ui->tableWidget->clearContents();
     this->ui->tableWidget->setRowCount(0);
@@ -218,7 +233,7 @@ void MainWindow::setDatabasePassword() {
 
     if (pwDialog.exec() == QDialog::Accepted) {
         std::string password = pwDialog.getPassword();
-        this->database->setPassword(password);
+        this->m_database->setPassword(password);
         this->writeLog("Database password changed!");
     }
 }
@@ -232,7 +247,7 @@ void MainWindow::createNewRecord() {
 
     if (recordDialog.exec() == QDialog::Accepted) {
         std::shared_ptr<Record> record = recordDialog.getRecord();
-        this->database->addNewRecord(record);
+        this->m_database->addNewRecord(record);
         this->populateTableWithRecords();
         this->writeLog("New record was created!");
     }
@@ -242,7 +257,7 @@ void MainWindow::populateTableWithRecords() {
     if (!this->databaseFileOpen)
         return;
 
-    std::vector<std::shared_ptr<Record>> records = database->getRecords();
+    std::vector<std::shared_ptr<Record>> records = m_database->getRecords();
 
     ui->tableWidget->clearContents();
     ui->tableWidget->setRowCount(0);
