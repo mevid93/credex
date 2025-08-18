@@ -7,5 +7,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
-    return a.exec();
+
+    int exitCode = a.exec();
+
+    qDebug() << "Application exited with code:" << exitCode;
+
+    return exitCode;
 }

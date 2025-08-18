@@ -1,5 +1,7 @@
 #include "record.h"
 
+int Record::s_nextFreeId = 0;
+
 Record::Record(uint32_t id): m_id(id) {}
 
 Record::~Record() {}
@@ -32,26 +34,26 @@ const std::string& Record::getUsername() const {
     return this->m_username;
 }
 
-void Record::setDescription(std::string& description) {
+void Record::setDescription(std::string description) {
     this->m_description = description;
 }
 
-void Record::setEmail(std::string& email) {
+void Record::setEmail(std::string email) {
     this->m_email = email;
 }
 
-void Record::setTitle(std::string& title) {
+void Record::setTitle(std::string title) {
     this->m_title = title;
 }
 
-void Record::setPassword(std::string& password) {
+void Record::setPassword(std::string password) {
     this->m_password = password;
 }
 
-void Record::setUrl(std::string& url) {
+void Record::setUrl(std::string url) {
     this->m_url = url;
 }
 
-void Record::setUsername(std::string& username) {
+void Record::setUsername(std::string username) {
     this->m_username = username;
 }

@@ -6,6 +6,8 @@
 class Record
 {
 public:
+    static int s_nextFreeId;
+
     /// @brief Record constructor.
     /// @param id Record id.
     explicit Record(uint32_t id);
@@ -43,27 +45,27 @@ public:
 
     /// @brief Set name.
     /// @param name Record name.
-    void setTitle(std::string& name);
+    void setTitle(std::string name);
 
     /// @brief Set username.
     /// @param username Record username.
-    void setUsername(std::string& username);
+    void setUsername(std::string username);
 
     /// @brief Set password.
     /// @param password Record password.
-    void setPassword(std::string& password);
+    void setPassword(std::string password);
 
     /// @brief Set email.
     /// @param email Record email.
-    void setEmail(std::string& email);
+    void setEmail(std::string email);
 
     /// @brief Set url.
     /// @param url Record url.
-    void setUrl(std::string& url);
+    void setUrl(std::string url);
 
     /// @brief Set description.
     /// @param description Record description.
-    void setDescription(std::string& description);
+    void setDescription(std::string description);
 
 private:
     uint32_t m_id;

@@ -12,12 +12,15 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // Set table columns to fill whole table.
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
     // Set flag values.
     this->unsavedChanges = false;
     this->newDatabaseFile = false;
     this->databaseFileOpen = false;
 
-    // Set some custom signals and slots
+    // Set some custom signals and slots.
     connect(this->ui->action_Exit, &QAction::triggered, this, &MainWindow::closeApplication);
     connect(this->ui->action_New, &QAction::triggered, this, &MainWindow::newDatabase);
     connect(this->ui->action_Open, &QAction::triggered, this, &MainWindow::openExistingDatabase);
@@ -174,6 +177,7 @@ void MainWindow::updateUI()
     this->ui->action_Close->setDisabled(!this->databaseFileOpen);
     this->ui->action_Save->setDisabled(!this->databaseFileOpen);
     this->ui->actionSave_As->setDisabled(!this->databaseFileOpen);
+    this->ui->tableWidget->setDisabled(!this->databaseFileOpen);
 
     this->ui->menuRecord->setDisabled(!this->databaseFileOpen);
     this->ui->actionCreate_New->setDisabled(!this->databaseFileOpen);
@@ -220,7 +224,8 @@ void MainWindow::createNewRecord() {
     RecordDialog recordDialog(this, "Create Record");
 
     if (recordDialog.exec() == QDialog::Accepted) {
-
+        std::shared_ptr<Record> record = recordDialog.getRecord();
+        this->database->addNewRecord(record);
         this->writeLog("New record was created!");
     }
 }

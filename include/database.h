@@ -26,7 +26,7 @@ public:
 
     /// @brief Insert new record to database.
     /// @param record New record to be inserted.
-    void addNewRecord(Record& record);
+    void addNewRecord(std::shared_ptr<Record> record);
 
     /// @brief Deleted record by id.
     /// @param id Record id.

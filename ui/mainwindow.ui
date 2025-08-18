@@ -77,7 +77,45 @@ color: rgb(0, 0, 0);</string>
        <item>
         <layout class="QVBoxLayout" name="credentialsLayout">
          <item>
-          <widget class="QListWidget" name="listWidget"/>
+          <widget class="QTableWidget" name="tableWidget">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(246, 245, 244);
+color: rgb(0, 0, 0);</string>
+           </property>
+           <property name="columnCount">
+            <number>6</number>
+           </property>
+           <column>
+            <property name="text">
+             <string>Title</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Username</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Password</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Email</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>URL</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Description</string>
+            </property>
+           </column>
+          </widget>
          </item>
         </layout>
        </item>
