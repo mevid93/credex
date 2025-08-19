@@ -22,6 +22,10 @@ public:
     /// @brief Get record.
     std::shared_ptr<Record> getRecord() const;
 
+    /// @brief Set Record.
+    /// @param record Record to be edited.
+    void setRecord(const std::shared_ptr<Record> record);
+
 private:
     Ui::RecordDialog *ui;
     std::shared_ptr<Record> m_record;

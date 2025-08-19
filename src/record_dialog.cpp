@@ -24,6 +24,16 @@ std::shared_ptr<Record> RecordDialog::getRecord() const {
     return this->m_record;
 }
 
+void RecordDialog::setRecord(const std::shared_ptr<Record> record) {
+    this->m_record->setId(record->getId());
+    this->ui->titleLineEdit->setText(QString::fromStdString(record->getTitle()));
+    this->ui->usernameLineEdit->setText(QString::fromStdString(record->getUsername()));
+    this->ui->passwordLineEdit->setText(QString::fromStdString(record->getPassword()));
+    this->ui->emailLineEdit->setText(QString::fromStdString(record->getEmail()));
+    this->ui->urlLineEdit->setText(QString::fromStdString(record->getUrl()));
+    this->ui->descriptionLineEdit->setText(QString::fromStdString(record->getDescription()));
+}
+
 void RecordDialog::showButtonPressed() {
     this->ui->passwordLineEdit->setEchoMode(QLineEdit::Normal);
 }

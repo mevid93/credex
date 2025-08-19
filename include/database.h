@@ -34,7 +34,7 @@ public:
 
     /// @brief Update record in database.
     /// @param record Updated record.
-    void updateRecord(Record& record);
+    void updateRecord(std::shared_ptr<Record> record);
 
     /// @brief Set database password.
     /// @param password Database password.

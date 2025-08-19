@@ -45,6 +45,18 @@ const std::shared_ptr<Record> Database::getRecord(const uint32_t id) const {
     return *it;
 }
 
+void Database::updateRecord(std::shared_ptr<Record> record) {
+    uint32_t id = record->getId();
+    auto it = std::find_if(this->m_records.begin(), this->m_records.end(), [id](const std::shared_ptr<Record>& record) {
+        return record->getId() == id;
+    });
+
+    if (it == m_records.end())
+        return;
+
+    *it = record;
+}
+
 void Database::deleteRecord(const uint32_t id) {
     for (auto it = this->m_records.begin(); it != this->m_records.end(); ) {
         if ((*it)->getId() == id) {

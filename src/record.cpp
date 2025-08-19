@@ -38,6 +38,11 @@ void Record::setDescription(std::string description) {
     this->m_description = description;
 }
 
+void Record::setId(uint32_t newId)
+{
+    m_id = newId;
+}
+
 void Record::setEmail(std::string email) {
     this->m_email = email;
 }

@@ -347,7 +347,8 @@ void MainWindow::onRightClick(const QPoint &pos) {
     QAction* copyAction = contextMenu.addAction("Copy password");
     connect(copyAction, &QAction::triggered, this, [this, id]() {copyPassword(id);});
 
-    contextMenu.addAction("Edit", this, SLOT(editRecord()));
+    QAction* editAction = contextMenu.addAction("Edit");
+    connect(editAction, &QAction::triggered, this, [this, id]() {editRecord(id);});
 
     QAction* deleteAction = contextMenu.addAction("Delete");
     connect(deleteAction, &QAction::triggered, this, [this, id]() {deleteRecord(id);});
@@ -371,7 +372,22 @@ void MainWindow::copyPassword(uint32_t recordId) {
 }
 
 void MainWindow::editRecord(const uint32_t recordId) {
+    const std::shared_ptr<Record> record = this->m_database->getRecord(recordId);
 
+    if (record == nullptr) {
+        this->writeLog("Unexpected error when editing the record.");
+        return;
+    }
+
+    RecordDialog recordDialog(this, "Edit Record");
+    recordDialog.setRecord(record);
+
+    if (recordDialog.exec() == QDialog::Accepted) {
+        std::shared_ptr<Record> record = recordDialog.getRecord();
+        this->m_database->updateRecord(record);
+        this->populateTableWithRecords();
+        this->writeLog("Record was updated!");
+    }
 }
 
 void MainWindow::deleteRecord(const uint32_t recordId) {
@@ -392,5 +408,7 @@ void MainWindow::deleteRecord(const uint32_t recordId) {
     this->m_database->deleteRecord(recordId);
 
     this->populateTableWithRecords();
+
+    this->writeLog("Record was deleted!");
 }
 

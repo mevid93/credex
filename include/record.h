@@ -67,6 +67,8 @@ public:
     /// @param description Record description.
     void setDescription(std::string description);
 
+    void setId(uint32_t newId);
+
 private:
     uint32_t m_id;
     std::string m_title;
