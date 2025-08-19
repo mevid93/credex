@@ -30,7 +30,7 @@ public:
 
     /// @brief Deleted record by id.
     /// @param id Record id.
-    void deleteRecord(uint32_t id);
+    void deleteRecord(const uint32_t id);
 
     /// @brief Update record in database.
     /// @param record Updated record.
@@ -58,7 +58,7 @@ public:
 
     /// @brief Get single record by id.
     /// @returns Record with given id.
-    const std::shared_ptr<Record> getRecord(uint32_t id) const;
+    const std::shared_ptr<Record> getRecord(const uint32_t id) const;
 
 private:
     std::string m_password;

@@ -34,7 +34,7 @@ std::string Database::getFilePath() const
     return m_filePath;
 }
 
-const std::shared_ptr<Record> Database::getRecord(uint32_t id) const {
+const std::shared_ptr<Record> Database::getRecord(const uint32_t id) const {
     auto it = std::find_if(this->m_records.begin(), this->m_records.end(), [id](const std::shared_ptr<Record>& record) {
         return record->getId() == id;
     });
@@ -43,4 +43,14 @@ const std::shared_ptr<Record> Database::getRecord(uint32_t id) const {
         return nullptr;
 
     return *it;
+}
+
+void Database::deleteRecord(const uint32_t id) {
+    for (auto it = this->m_records.begin(); it != this->m_records.end(); ) {
+        if ((*it)->getId() == id) {
+            it = this->m_records.erase(it); // erase returns the next valid iterator
+        } else {
+            ++it;
+        }
+    }
 }

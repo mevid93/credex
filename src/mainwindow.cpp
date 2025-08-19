@@ -348,7 +348,10 @@ void MainWindow::onRightClick(const QPoint &pos) {
     connect(copyAction, &QAction::triggered, this, [this, id]() {copyPassword(id);});
 
     contextMenu.addAction("Edit", this, SLOT(editRecord()));
-    contextMenu.addAction("Delete", this, SLOT(deleteRecord()));
+
+    QAction* deleteAction = contextMenu.addAction("Delete");
+    connect(deleteAction, &QAction::triggered, this, [this, id]() {deleteRecord(id);});
+
     contextMenu.exec(this->ui->tableWidget->viewport()->mapToGlobal(pos));
 }
 
@@ -366,3 +369,28 @@ void MainWindow::copyPassword(uint32_t recordId) {
 
     this->writeLog("Password was copied to clipboard.");
 }
+
+void MainWindow::editRecord(const uint32_t recordId) {
+
+}
+
+void MainWindow::deleteRecord(const uint32_t recordId) {
+    const std::shared_ptr<Record> record = this->m_database->getRecord(recordId);
+
+    if (record == nullptr) {
+        this->writeLog("Unexpected error when deleting the record.");
+        return;
+    }
+
+    QMessageBox::StandardButton reply;
+    reply = QMessageBox::question(this, "Confirm", "Are you sure you want to delete the record?", QMessageBox::Yes | QMessageBox::No);
+
+    if (reply == QMessageBox::No) {
+        return;
+    }
+
+    this->m_database->deleteRecord(recordId);
+
+    this->populateTableWithRecords();
+}
+

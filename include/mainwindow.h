@@ -70,6 +70,15 @@ private slots:
     void onRightClick(const QPoint &pos);
 
     /// @brief Copy password to clipboard.
-    void copyPassword(uint32_t recordId);
+    /// @param recordId Record id.
+    void copyPassword(const uint32_t recordId);
+
+    /// @brief Edit record.
+    /// @param recordId Record id.
+    void editRecord(const uint32_t recordId);
+
+    /// @brief Delete record.
+    /// @param recordId Record id.
+    void deleteRecord(const uint32_t recordId);
 };
 #endif // MAINWINDOW_H
