@@ -8,6 +8,7 @@
 #include "QFileDialog"
 #include <QTime>
 #include <QMessageBox>
+#include <QClipboard>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -305,26 +306,31 @@ void MainWindow::populateTableWithRecords() {
 
         QTableWidgetItem* titleItem = new QTableWidgetItem(QString::fromStdString(record->getTitle()));
         titleItem->setFlags(titleItem->flags() & ~Qt::ItemIsEditable);  // Remove editable flag
+        titleItem->setData(Qt::UserRole, record->getId()); // store record id
         this->ui->tableWidget->setItem(row, 0, titleItem);
 
         QTableWidgetItem* usernameItem = new QTableWidgetItem(QString::fromStdString(record->getUsername()));
         usernameItem->setFlags(usernameItem->flags() & ~Qt::ItemIsEditable);
+        usernameItem->setData(Qt::UserRole, record->getId());
         this->ui->tableWidget->setItem(row, 1, usernameItem);
 
         QTableWidgetItem* passwordItem = new QTableWidgetItem("*****");  // Masked display
-        passwordItem->setData(Qt::UserRole, QString::fromStdString(record->getPassword()));  // Store actual password
+        passwordItem->setData(Qt::UserRole, record->getId());
         passwordItem->setFlags(passwordItem->flags() & ~Qt::ItemIsEditable);
         this->ui->tableWidget->setItem(row, 2, passwordItem);
 
         QTableWidgetItem* emailItem = new QTableWidgetItem(QString::fromStdString(record->getEmail()));
+        emailItem->setData(Qt::UserRole, record->getId());
         emailItem->setFlags(emailItem->flags() & ~Qt::ItemIsEditable);
         this->ui->tableWidget->setItem(row, 3, emailItem);
 
         QTableWidgetItem* urlItem = new QTableWidgetItem(QString::fromStdString(record->getUrl()));
+        urlItem->setData(Qt::UserRole, record->getId());
         urlItem->setFlags(urlItem->flags() & ~Qt::ItemIsEditable);
         this->ui->tableWidget->setItem(row, 4, urlItem);
 
         QTableWidgetItem* descriptionItem = new QTableWidgetItem(QString::fromStdString(record->getDescription()));
+        descriptionItem->setData(Qt::UserRole, record->getId());
         descriptionItem->setFlags(descriptionItem->flags() & ~Qt::ItemIsEditable);
         this->ui->tableWidget->setItem(row, 5, descriptionItem);
     }
@@ -334,9 +340,29 @@ void MainWindow::onRightClick(const QPoint &pos) {
     QTableWidgetItem *item = this->ui->tableWidget->itemAt(pos);
     if (!item) return;
 
+    // Get record id.
+    uint32_t id = item->data(Qt::UserRole).toInt();
+
     QMenu contextMenu;
-    contextMenu.addAction("Copy password", this, SLOT(copyPassword()));
+    QAction* copyAction = contextMenu.addAction("Copy password");
+    connect(copyAction, &QAction::triggered, this, [this, id]() {copyPassword(id);});
+
     contextMenu.addAction("Edit", this, SLOT(editRecord()));
     contextMenu.addAction("Delete", this, SLOT(deleteRecord()));
     contextMenu.exec(this->ui->tableWidget->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::copyPassword(uint32_t recordId) {
+    const std::shared_ptr<Record> record = this->m_database->getRecord(recordId);
+
+    if (record == nullptr) {
+        this->writeLog("Unexpected error when copying the password.");
+        return;
+    }
+
+    QClipboard *clipboard = QApplication::clipboard();
+    QString password = QString::fromStdString(record->getPassword());
+    clipboard->setText(password);
+
+    this->writeLog("Password was copied to clipboard.");
 }

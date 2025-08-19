@@ -56,6 +56,10 @@ public:
     /// @returns File path.
     std::string getFilePath() const;
 
+    /// @brief Get single record by id.
+    /// @returns Record with given id.
+    const std::shared_ptr<Record> getRecord(uint32_t id) const;
+
 private:
     std::string m_password;
     std::string m_filePath;

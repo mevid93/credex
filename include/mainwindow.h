@@ -68,5 +68,8 @@ private slots:
 
     /// @brief Handle right table widget right click.
     void onRightClick(const QPoint &pos);
+
+    /// @brief Copy password to clipboard.
+    void copyPassword(uint32_t recordId);
 };
 #endif // MAINWINDOW_H

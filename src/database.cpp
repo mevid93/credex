@@ -1,4 +1,5 @@
 #include "database.h"
+#include <algorithm>
 
 Database::Database() {}
 
@@ -31,4 +32,15 @@ std::string Database::getPassword() const
 std::string Database::getFilePath() const
 {
     return m_filePath;
+}
+
+const std::shared_ptr<Record> Database::getRecord(uint32_t id) const {
+    auto it = std::find_if(this->m_records.begin(), this->m_records.end(), [id](const std::shared_ptr<Record>& record) {
+        return record->getId() == id;
+    });
+
+    if (it == m_records.end())
+        return nullptr;
+
+    return *it;
 }
