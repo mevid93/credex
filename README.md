@@ -1,8 +1,3 @@
-TODO:
-* Edit single key.
-* Delete single key.
-* Copy password.
-  
 <a id="readme-top"></a>
 
   <h3 align="center">CREDEX</h3>
