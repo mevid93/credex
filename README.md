@@ -19,6 +19,7 @@
       </ul>
     </li>
     <li><a href="#license">License</a></li>
+    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -84,3 +85,25 @@ See [`LICENSE.txt`](LICENSE.txt) for full details.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
+<!-- ACKNOWLEDGMENTS -->
+## 🙏 Acknowledgments
+
+This project was made possible thanks to the following technologies and communities:
+
+- **Qt Framework**  
+  Developed by The Qt Company. This project uses Qt modules licensed under the GNU Lesser General Public License (LGPL) v3.  
+  Learn more: [https://www.qt.io](https://www.qt.io)
+
+- **OpenSSL Toolkit**  
+  This project links against the OpenSSL library for secure encryption.  
+  OpenSSL is licensed under the Apache License 2.0 and/or the OpenSSL License.  
+  Learn more: [https://www.openssl.org](https://www.openssl.org)
+
+- **GNU GPL v3 License**  
+  This project is licensed under the GNU General Public License v3.0.  
+  License text: [https://www.gnu.org/licenses/gpl-3.0.html](https://www.gnu.org/licenses/gpl-3.0.html)
+
+
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
