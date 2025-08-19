@@ -3,6 +3,7 @@
 #include "password_dialog.h"
 #include "record_dialog.h"
 #include "db_writer.h"
+#include "db_reader.h"
 #include "QFileDialog"
 #include <QTime>
 #include <QMessageBox>
@@ -94,9 +95,36 @@ void MainWindow::openExistingDatabase()
         return;
     }
 
+    // Keep asking password until no error or user cancels the operation.
+    while(true) {
+        PasswordDialog pwDialog(this);
+
+        if (pwDialog.exec() != QDialog::Accepted) {
+            this->writeLog("Read operation failed!");
+            return;
+        }
+
+        std::string password = pwDialog.getPassword();
+
+        try {
+            std::unique_ptr<Database> db = read_database(fileName.toStdString(), password);
+
+            if (db != nullptr) {
+                this->m_database = std::move(db);
+                break;
+            }
+        } catch (...) {
+            this->writeLog("Read operation failed!");
+        }
+
+        QMessageBox::information(nullptr, "Warning", "Could not decrypt the file! Password was most likely wrong.");
+    }
+
     this->unsavedChanges = false;
     this->newDatabaseFile = false;
     this->databaseFileOpen = true;
+
+    this->populateTableWithRecords();
 
     this->ui->pathLineEdit->setText(fileName);
 
