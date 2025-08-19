@@ -13,6 +13,7 @@ SOURCES += \
     src/main.cpp \
     src/mainwindow.cpp \
     src/password_dialog.cpp \
+    src/password_input_dialog.cpp \
     src/record.cpp \
     src/record_dialog.cpp
 
@@ -22,12 +23,14 @@ HEADERS += \
     include/db_writer.h \
     include/mainwindow.h \
     include/password_dialog.h \
+    include/password_input_dialog.h \
     include/record.h \
     include/record_dialog.h
 
 FORMS += \
     ui/mainwindow.ui \
     ui/password_dialog.ui \
+    ui/password_input_dialog.ui \
     ui/record_dialog.ui
 
 LIBS += -lssl -lcrypto

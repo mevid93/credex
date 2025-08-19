@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "password_dialog.h"
+#include "password_input_dialog.h"
 #include "record_dialog.h"
 #include "db_writer.h"
 #include "db_reader.h"
@@ -62,6 +63,7 @@ void MainWindow::newDatabase()
     this->unsavedChanges = true;
     this->newDatabaseFile = true;
     this->databaseFileOpen = true;
+    Record::s_nextFreeId = 0;
 
     this->m_database = std::make_unique<Database>();
 
@@ -97,14 +99,14 @@ void MainWindow::openExistingDatabase()
 
     // Keep asking password until no error or user cancels the operation.
     while(true) {
-        PasswordDialog pwDialog(this);
+        PasswordInputDialog pwInputDialog(this);
 
-        if (pwDialog.exec() != QDialog::Accepted) {
+        if (pwInputDialog.exec() != QDialog::Accepted) {
             this->writeLog("Read operation failed!");
             return;
         }
 
-        std::string password = pwDialog.getPassword();
+        std::string password = pwInputDialog.getPassword();
 
         try {
             std::unique_ptr<Database> db = read_database(fileName.toStdString(), password);
@@ -201,6 +203,8 @@ void MainWindow::closeDatabase()
 
     this->m_database.reset();
 
+    Record::s_nextFreeId = 0;
+
     this->ui->tableWidget->clearContents();
     this->ui->tableWidget->setRowCount(0);
 
@@ -245,6 +249,7 @@ bool MainWindow::handleUnsavedChanges() {
             this->unsavedChanges = false;
             this->newDatabaseFile = false;
             this->databaseFileOpen = false;
+            Record::s_nextFreeId = 0;
             return true;
         }
     }
