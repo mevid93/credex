@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Set table columns to fill whole table.
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->tableWidget, &QTableWidget::customContextMenuRequested, this, &MainWindow::onRightClick);
 
     // Set flag values.
     this->unsavedChanges = false;
@@ -326,4 +328,15 @@ void MainWindow::populateTableWithRecords() {
         descriptionItem->setFlags(descriptionItem->flags() & ~Qt::ItemIsEditable);
         this->ui->tableWidget->setItem(row, 5, descriptionItem);
     }
+}
+
+void MainWindow::onRightClick(const QPoint &pos) {
+    QTableWidgetItem *item = this->ui->tableWidget->itemAt(pos);
+    if (!item) return;
+
+    QMenu contextMenu;
+    contextMenu.addAction("Copy password", this, SLOT(copyPassword()));
+    contextMenu.addAction("Edit", this, SLOT(editRecord()));
+    contextMenu.addAction("Delete", this, SLOT(deleteRecord()));
+    contextMenu.exec(this->ui->tableWidget->viewport()->mapToGlobal(pos));
 }

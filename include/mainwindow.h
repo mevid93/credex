@@ -65,5 +65,8 @@ private slots:
 
     /// @brief Create new Record.
     void createNewRecord();
+
+    /// @brief Handle right table widget right click.
+    void onRightClick(const QPoint &pos);
 };
 #endif // MAINWINDOW_H
