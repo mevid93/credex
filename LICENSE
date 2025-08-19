@@ -672,3 +672,17 @@ may consider it more useful to permit linking proprietary applications with
 the library.  If this is what you want to do, use the GNU Lesser General
 Public License instead of this License.  But first, please read
 <https://www.gnu.org/licenses/why-not-lgpl.html>.
+
+---
+
+This software uses the Qt framework (modules: Core, GUI, Widgets),
+which is licensed under the GNU Lesser General Public License (LGPL) version 3.
+See https://www.qt.io/licensing for details.
+
+This software also links against the OpenSSL library.
+
+This product includes software developed by the OpenSSL Project
+for use in the OpenSSL Toolkit (https://www.openssl.org/)
+
+OpenSSL is licensed under the Apache License 2.0 and/or the OpenSSL License.
+No OpenSSL binaries are distributed with this source code.
